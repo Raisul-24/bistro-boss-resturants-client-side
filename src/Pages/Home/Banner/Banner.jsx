@@ -14,7 +14,7 @@ const Banner = () => {
       <div>
           <Carousel autoPlay="boolean"  >
                 <div>
-                    <img src={banner1} />
+                    <img src={banner1}/>
                 </div>
                 <div>
                     <img src={banner2} />                   
