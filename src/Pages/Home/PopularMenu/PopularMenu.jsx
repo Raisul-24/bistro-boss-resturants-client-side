@@ -22,11 +22,11 @@ const PopularMenu = () => {
          <SectionTitle heading="From Our menu" subHeading="Check It Out"></SectionTitle>
          <div className="grid md:grid-cols-2 gap-10">
             {
-               popular.map(item =><MenuCard key={item._id} item={item}></MenuCard>)
+               popular.map(item => <MenuCard key={item._id} item={item}></MenuCard>)
             }
          </div>
          <div className="flex justify-center">
-         <button className="mx-auto btn btn-outline border-0 border-b-4 text-center mt-10">View Full Menu</button>
+            <button className="mx-auto btn btn-outline border-0 border-b-4 text-center mt-10">View Full Menu</button>
          </div>
       </section>
    );
