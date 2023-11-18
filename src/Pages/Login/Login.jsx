@@ -1,36 +1,50 @@
 /* eslint-disable react/no-unescaped-entities */
-import { useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../Provider/AuthProvider";
+import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 
 
 const Login = () => {
    const [email, setEmail] = useState('');
    const [password, setPassword] = useState('');
    const navigate = useNavigate();
+   const { signIn } = useContext(AuthContext);
 
-   const handleLogin = async (e) =>{
+   const captchaRef = useRef(null);
+   const [disabled, setDisabled] = useState(true)
+
+   useEffect(() => {
+      loadCaptchaEnginge(6);
+   }, [])
+
+   const handleValidateCaptcha = () => {
+      const user_captcha_value = captchaRef.current.value;
+      if (validateCaptcha(user_captcha_value)) {
+         setDisabled(false);
+      }
+   }
+   const handleLogin = async (e) => {
       e.preventDefault();
-      console.log(email,password)
+      // console.log(email,password);
       const toastId = toast.loading('Logging In....');
       try {
-         await signIn(email,password)
-         toast.success('LogIn Successfully!!',{id: toastId})
-
-         if(location.state && location.state.from){
+         await signIn(email, password)
+         toast.success('LogIn Successfully!!', { id: toastId })
+         if (location.state && location.state.from) {
             navigate(location.state.from.pathname)
          }
-         else{
+         else {
             navigate('/')
          }
       } catch (error) {
-         // console.log(error)
-         toast.error(error.message,{id:toastId})
+         toast.error(error.message, { id: toastId })
       }
    }
 
    return (
-      <div className="flex flex-col md:flex-row h-screen py-32 items-center bg-[url('/src/assets/others/authentication.png')]">
+      <div className="flex flex-col md:flex-row h-screen py-32 items-center bg-[url(https://i.ibb.co/17R85wC/authentication.png)]">
          <div className="w-1/2 flex justify-center md:justify-end">
             <img src="https://i.ibb.co/6wPjzpn/user-login.gif" className="rounded-xl hidden md:flex" alt="" />
          </div>
@@ -61,11 +75,20 @@ const Login = () => {
                            Password
                         </label>
                      </div>
+                     <LoadCanvasTemplate />
+                     <div className=" h-11 w-full flex items-center gap-4 min-w-[200px]">
+                        <input type="text" ref={captchaRef}
+                           placeholder="Type the captcha above..."
+                           className="w-full h-full px-3 py-3  text-sm font-normal transition-all bg-transparent border rounded-md peer border-blue-gray-200  text-blue-gray-700 outline outline-0 placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+                           required />
+                        <button onBlur={handleValidateCaptcha} className="btn btn-outline btn-xs btn-success">validate</button>
+
+                     </div>
 
                   </div>
 
                   <div className="p-6 pt-0">
-                     <input
+                     <input disabled={disabled}
                         className="block w-full select-none rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 py-3 px-6 text-center align-middle  text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                         type="submit"
                         data-ripple-light="true"

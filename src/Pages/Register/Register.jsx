@@ -1,31 +1,24 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
-
-
+import { AuthContext } from "../../Provider/AuthProvider";
 const Register = () => {
    const [name, setName] = useState('');
    const [photo, setPhoto] = useState('');
    const [email, setEmail] = useState('');
    const [password, setPassword] = useState('');
-   const newUser = { name, photo, email }
-   console.log(newUser);
 
-   // const { createUser, googleSignIn, githubSignIn, twitterSignIn } = useContext(AuthContext);
+   console.log(name, photo);
+
+   const { createUser } = useContext(AuthContext);
    const navigate = useNavigate();
-   // const location = useLocation();
-   // console.log(user);
    const handleRegister = async (e) => {
       e.preventDefault();
-      // console.log(name, photo, email, password);
-      // console.log(email);
       const toastId = toast.loading('Logging In...');
       try {
          await createUser(email, password);
          // console.log("created");
-
-         toast.success('Log In Successfully!!', { id: toastId });
-
+         toast.success('Register In Successfully!!', { id: toastId });
          if (location.state && location.state.from) {
             navigate(location.state.from.pathname)
          }
@@ -33,12 +26,14 @@ const Register = () => {
             navigate('/')
          }
       } catch (error) {
-         // console.log(error)
+         console.log(error)
          toast.error(error.message, { id: toastId });
       }
    }
+
+
    return (
-      <div className="flex flex-col md:flex-row py-32 h-screen items-center bg-[url('/src/assets/others/authentication.png')]">
+      <div className="flex flex-col md:flex-row py-32 h-screen items-center bg-[url(https://i.ibb.co/17R85wC/authentication.png)]">
          <div className="w-1/2 flex justify-center md:justify-end">
             <img src="https://i.ibb.co/mNJj89X/login.gif" className="rounded-xl hidden md:flex" alt="" />
          </div>
@@ -73,7 +68,7 @@ const Register = () => {
                         <input type="email"
                            onBlur={(e) => setEmail(e.target.value)}
                            className="w-full h-full px-3 py-3  text-sm font-normal transition-all bg-transparent border rounded-md peer border-blue-gray-200 border-t-transparent text-blue-gray-700 outline outline-0 placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-                           required />
+                        />
                         <label className="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[4.1] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-pink-500 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:!border-pink-500 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:!border-pink-500 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
                            Email
                         </label>
@@ -82,44 +77,45 @@ const Register = () => {
                         <input type="password"
                            onBlur={(e) => setPassword(e.target.value)}
                            className="w-full h-full px-3 py-3  text-sm font-normal transition-all bg-transparent border rounded-md peer border-blue-gray-200 border-t-transparent text-blue-gray-700 outline outline-0 placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-                           required />
+                        />
                         <label className="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[4.1] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-pink-500 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:!border-pink-500 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:!border-pink-500 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
                            Password
                         </label>
                      </div>
+                     
 
-                  </div>
+            </div>
 
-                  <div className="p-6 pt-0">
-                     <input
-                        className="block w-full select-none rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 py-3 px-6 text-center align-middle  text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                        type="submit"
-                        data-ripple-light="true"
-                        value="Register"
-                     >
-                     </input>
-                     <p className="flex justify-center mt-6  text-medium antialiased font-light leading-normal text-inherit">
-                        Or, Sign In with
-                     </p>
-                     {/* <div className="flex justify-center my-5">
+            <div className="p-6 pt-0">
+               <input 
+                  className="block w-full select-none rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 py-3 px-6 text-center align-middle  text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                  type="submit"
+                  data-ripple-light="true"
+                  value="Register"
+               >
+               </input>
+               <p className="flex justify-center mt-6  text-medium antialiased font-light leading-normal text-inherit">
+                  Or, Sign In with
+               </p>
+               {/* <div className="flex justify-center my-5">
                         <div className="rounded-full text-4xl bg-slate-300 btn" onClick={handleGoogleSignIn}><FcGoogle></FcGoogle></div>
                         <div className="rounded-full btn text-4xl bg-slate-300 mx-5" onClick={handleGithubSignIn}><FaGithub className="text-black"></FaGithub></div>
                         <div className="rounded-full btn text-4xl bg-slate-300" onClick={handleTwitterSignIn}><FaTwitter className="text-blue-500"></FaTwitter></div>
                      </div> */}
-                     <p className="flex justify-center mt-6  text-sm antialiased font-light leading-normal text-inherit">
-                        Have an account?
-                        <Link
-                           to="/login"
-                           className="block ml-1  text-sm antialiased font-bold leading-normal text-[#FF3811]"
-                        >
-                           LogIn
-                        </Link>
-                     </p>
-                  </div>
-               </form>
+               <p className="flex justify-center mt-6  text-sm antialiased font-light leading-normal text-inherit">
+                  Have an account?
+                  <Link
+                     to="/login"
+                     className="block ml-1  text-sm antialiased font-bold leading-normal text-[#FF3811]"
+                  >
+                     LogIn
+                  </Link>
+               </p>
             </div>
-         </div>
+         </form>
       </div>
+         </div >
+      </div >
    );
 };
 

@@ -1,7 +1,20 @@
-import { Link, NavLink } from "react-router-dom";
+import { useContext } from "react";
+import { Link } from "react-router-dom";
+import { AuthContext } from "../../Provider/AuthProvider";
+import { toast } from "react-hot-toast";
 
 
 const Navbar = () => {
+   const {user, logOut} = useContext(AuthContext);
+   console.log(user)
+   const handleLogOut = async() =>{
+      try {
+         logOut()
+         toast.success('Log Out Successfully!!');
+      } catch (error) {
+         toast.error(error.message);
+      }
+   }
    const navLinks = <>
       <li><Link to='/'>Home</Link></li>
       <li><Link to='/contact'>Contact Us</Link></li>
@@ -15,7 +28,9 @@ const Navbar = () => {
          </div>
       </label>
       </li>
-      <li><NavLink to='/login'>Login</NavLink></li>
+      { 
+         user ? <li><Link onClick={handleLogOut} >Logout</Link></li> : <li><Link to='/login'>Login</Link></li>
+      }
    </>
    return (
       <div className="navbar fixed z-10 bg-opacity-30 max-w-screen-2xl bg-black text-white">
