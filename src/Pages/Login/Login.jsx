@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import { useContext, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 import { useForm } from "react-hook-form";
@@ -9,10 +9,13 @@ import { useForm } from "react-hook-form";
 
 const Login = () => {
    const { register, handleSubmit, formState: { errors }, } = useForm();
-   // const [email, setEmail] = useState('');
-   // const [password, setPassword] = useState('');
-   const navigate = useNavigate();
    const { signIn } = useContext(AuthContext);
+
+   const navigate = useNavigate();
+   const location = useLocation();
+
+   const from = location.state?.from?.pathname || "/";
+   console.log('state in the location login page', location.state)
 
    const captchaRef = useRef(null);
    const [disabled, setDisabled] = useState(true)
@@ -29,7 +32,7 @@ const Login = () => {
       }
    }
    const onSubmit = async (data) => {
-      console.log(data);
+      // console.log(data);
       const toastId = toast.loading('Logging In....');
       try {
          await signIn(data.email, data.password)
@@ -38,7 +41,7 @@ const Login = () => {
             navigate(location.state.from.pathname)
          }
          else {
-            navigate('/')
+            navigate(from, { replace: true });
          }
       } catch (error) {
          toast.error(error.message, { id: toastId })

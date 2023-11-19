@@ -2,12 +2,15 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { toast } from "react-hot-toast";
+import UseCart from "../../hooks/UseCart";
 
 
 const Navbar = () => {
-   const {user, logOut} = useContext(AuthContext);
-   console.log(user)
-   const handleLogOut = async() =>{
+   const { user, logOut } = useContext(AuthContext);
+   // console.log(user)
+   const [cart] = UseCart();
+   // console.log(cart.length)
+   const handleLogOut = async () => {
       try {
          logOut()
          toast.success('Log Out Successfully!!');
@@ -21,14 +24,16 @@ const Navbar = () => {
       <li><Link to='/dashBoard'>Dash Board</Link></li>
       <li><Link to='/menu'>Our Menu</Link></li>
       <li><Link to='/shop'>Ous Shop</Link></li>
-      <li><label tabIndex={0} className="btn btn-ghost btn-circle">
-         <div className="indicator">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-            <span className="badge badge-sm indicator-item">8</span>
-         </div>
-      </label>
+      <li><Link to=''>
+         <label tabIndex={0} className="btn btn-ghost btn-circle">
+            <div className="indicator">
+               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+               <span className="badge badge-sm indicator-item">{cart.length}</span>
+            </div>
+         </label>
+      </Link>
       </li>
-      { 
+      {
          user ? <li><Link onClick={handleLogOut} >Logout</Link></li> : <li><Link to='/login'>Login</Link></li>
       }
    </>
@@ -43,7 +48,7 @@ const Navbar = () => {
                   {navLinks}
                </ul>
             </div>
-            <a className="btn btn-ghost normal-case text-xl">daisyUI</a>
+            <a className="btn btn-ghost normal-case text-xl">Bistro Boss</a>
          </div>
          <div className="navbar-end hidden lg:flex">
             <ul className="menu menu-horizontal px-1">
