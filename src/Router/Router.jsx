@@ -10,6 +10,8 @@ import Login from "../Pages/Login/Login";
 import Register from "../Pages/Register/Register";
 import DashBoardLayout from "../Layout/DashBoardLayout";
 import Cart from "../Pages/DashBoard/Cart/Cart";
+import PrivateRoute from "./PrivateRoute";
+import AllUsers from "../Pages/DashBoard/AllUsers/AllUsers";
 
 const router = createBrowserRouter([
    {
@@ -48,7 +50,11 @@ const router = createBrowserRouter([
       children: [
          {
             path: 'cart',
-            element: <Cart></Cart>
+            element: <PrivateRoute><Cart></Cart></PrivateRoute>
+         },
+         {
+            path: 'allUsers',
+            element: <AllUsers></AllUsers>
          }
       ]
    }

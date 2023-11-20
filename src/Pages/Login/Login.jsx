@@ -5,6 +5,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 import { useForm } from "react-hook-form";
+import SocialLogin from "./SocialLogin/SocialLogin";
 
 
 const Login = () => {
@@ -15,7 +16,7 @@ const Login = () => {
    const location = useLocation();
 
    const from = location.state?.from?.pathname || "/";
-   console.log('state in the location login page', location.state)
+   // console.log('state in the location login page', location.state)
 
    const captchaRef = useRef(null);
    const [disabled, setDisabled] = useState(true)
@@ -37,6 +38,7 @@ const Login = () => {
       try {
          await signIn(data.email, data.password)
          toast.success('LogIn Successfully!!', { id: toastId })
+         
          if (location.state && location.state.from) {
             navigate(location.state.from.pathname)
          }
@@ -47,7 +49,7 @@ const Login = () => {
          toast.error(error.message, { id: toastId })
       }
    }
-
+  
    return (
       <div className="flex flex-col md:flex-row h-screen py-32 items-center bg-[url(https://i.ibb.co/17R85wC/authentication.png)]">
          <div className="w-1/2 flex justify-center md:justify-end">
@@ -65,7 +67,6 @@ const Login = () => {
                      <div className="relative h-11 w-full min-w-[200px]">
                         <input type="email"
                            {...register("email", { required: true })}
-                           // onBlur={(e) => setEmail(e.target.value)}
                            className="w-full h-full px-3 py-3  text-sm font-normal transition-all bg-transparent border rounded-md peer border-blue-gray-200 border-t-transparent text-blue-gray-700 outline outline-0 placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
                         />
                         {errors.email && <span className="text-red-600 text-xs font-medium">Email is required</span>}
@@ -76,7 +77,6 @@ const Login = () => {
                      <div className="relative h-11 w-full min-w-[200px]">
                         <input type="password"
                            {...register("password", { required: true })}
-                           // onBlur={(e) => setPassword(e.target.value)}
                            className="w-full h-full px-3 py-3  text-sm font-normal transition-all bg-transparent border rounded-md peer border-blue-gray-200 border-t-transparent text-blue-gray-700 outline outline-0 placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
                         />
                         {errors.password && <span className="text-red-600 text-xs font-medium">Password is required</span>}
@@ -107,11 +107,7 @@ const Login = () => {
                      <p className="flex justify-center mt-6  text-medium antialiased font-light leading-normal text-inherit">
                         Or, Sign In with
                      </p>
-                     {/* <div className="flex justify-center my-5">
-                        <div className="rounded-full text-4xl bg-slate-300 btn" onClick={handleGoogleSignIn}><FcGoogle></FcGoogle></div>
-                        <div className="rounded-full btn text-4xl bg-slate-300 mx-5" onClick={handleGithubSignIn}><FaGithub className="text-black"></FaGithub></div>
-                        <div className="rounded-full btn text-4xl bg-slate-300" onClick={handleTwitterSignIn}><FaTwitter className="text-blue-500"></FaTwitter></div>
-                     </div> */}
+                     <SocialLogin></SocialLogin>
                      <p className="flex justify-center mt-6  text-sm antialiased font-light leading-normal text-inherit">
                         Don't have an account?
                         <Link

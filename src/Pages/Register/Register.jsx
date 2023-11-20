@@ -2,13 +2,14 @@ import { useContext, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
+import SocialLogin from "../Login/SocialLogin/SocialLogin";
+import UseAxiosPublic from "../../hooks/UseAxiosPublic";
 const Register = () => {
    const [name, setName] = useState('');
    const [photo, setPhoto] = useState('');
    const [email, setEmail] = useState('');
    const [password, setPassword] = useState('');
-
-   console.log(name, photo);
+   const axiosPublic = UseAxiosPublic();
 
    const { createUser } = useContext(AuthContext);
    const navigate = useNavigate();
@@ -17,6 +18,12 @@ const Register = () => {
       const toastId = toast.loading('Logging In...');
       try {
          await createUser(email, password);
+         const userInfo = {
+            email: email,
+            name: name,
+            photo: photo
+         }
+         axiosPublic.post('/users', userInfo)
          // console.log("created");
          toast.success('Register In Successfully!!', { id: toastId });
          if (location.state && location.state.from) {
@@ -97,11 +104,8 @@ const Register = () => {
                <p className="flex justify-center mt-6  text-medium antialiased font-light leading-normal text-inherit">
                   Or, Sign In with
                </p>
-               {/* <div className="flex justify-center my-5">
-                        <div className="rounded-full text-4xl bg-slate-300 btn" onClick={handleGoogleSignIn}><FcGoogle></FcGoogle></div>
-                        <div className="rounded-full btn text-4xl bg-slate-300 mx-5" onClick={handleGithubSignIn}><FaGithub className="text-black"></FaGithub></div>
-                        <div className="rounded-full btn text-4xl bg-slate-300" onClick={handleTwitterSignIn}><FaTwitter className="text-blue-500"></FaTwitter></div>
-                     </div> */}
+               <SocialLogin></SocialLogin>
+               
                <p className="flex justify-center mt-6  text-sm antialiased font-light leading-normal text-inherit">
                   Have an account?
                   <Link

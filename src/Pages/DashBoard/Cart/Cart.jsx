@@ -11,7 +11,7 @@ const Cart = () => {
    const totalPrice = cart.reduce((total, item) => total + item.price, 0);
    const axiosSecure = UseAxiosSecure();
 
-   const handleDelete = id =>{
+   const handleDelete = id => {
       // console.log(id)
       Swal.fire({
          title: "Are you sure?",
@@ -21,21 +21,21 @@ const Cart = () => {
          confirmButtonColor: "#3085d6",
          cancelButtonColor: "#d33",
          confirmButtonText: "Yes, delete it!"
-     }).then((result) => {
+      }).then((result) => {
          if (result.isConfirmed) {
-             axiosSecure.delete(`/carts/${id}`)
-                 .then(res => {
-                     if (res.data.deletedCount > 0) {
-                         refetch();
-                         Swal.fire({
-                             title: "Deleted!",
-                             text: "Your file has been deleted.",
-                             icon: "success"
-                         });
-                     }
-                 })
+            axiosSecure.delete(`/carts/${id}`)
+               .then(res => {
+                  if (res.data.deletedCount > 0) {
+                     refetch();
+                     Swal.fire({
+                        title: "Deleted!",
+                        text: "Your file has been deleted.",
+                        icon: "success"
+                     });
+                  }
+               })
          }
-     });
+      });
    }
    return (
       <div >
@@ -43,14 +43,14 @@ const Cart = () => {
             <title>Bistro Boss | Dashboard | Cart</title>
          </Helmet>
          <SectionTitle heading='WANNA ADD MORE?' subHeading='My Cart'></SectionTitle>
-         <div className=" bg-white py-4 rounded-xl">
-            <div className="flex justify-evenly mb-8">
+         <div className=" bg-white py-4 rounded-xl text-black">
+            <div className="flex justify-evenly mb-8 items-center">
                <h2 className="text-4xl">Items: {cart.length}</h2>
                <h2 className="text-4xl">Total Price: ${totalPrice}</h2>
-               <button className="btn btn-outline  bg-[#D1A054]">Pay</button>
+               <button className="btn btn-outline btn-sm py-2 bg-[#D1A054] border-0 text-white">Pay</button>
             </div>
             <div>
-               <div className="overflow-x-auto rounded-xl mx-16">
+               <div className="overflow-x-auto rounded-t-xl mx-16">
                   <table className="table">
                      {/* head */}
                      <thead className="bg-[#D1A054] rounded-t-xl text-base text-white font-semibold">
@@ -83,9 +83,9 @@ const Cart = () => {
                               <th>
                                  <div className="bg-[#B91C1C] w-12 h-12 text-white text-3xl rounded-xl flex justify-center items-center">
                                     <button onClick={() => handleDelete(item._id)}>
-                                    <RiDeleteBin5Fill />
+                                       <RiDeleteBin5Fill />
                                     </button>
-                                    </div>
+                                 </div>
                               </th>
                            </tr>)
                         }
