@@ -8,7 +8,7 @@ const DashBoardLayout = () => {
    return (
       <div className="flex">
             {/* dashboard side bar  */}
-            <div className="w-64 min-h-screen bg-orange-400">
+            <div className="w-64 min-h-screen bg-[#D1A054]">
                 <ul className="menu p-4">
                     <li>
                         <NavLink to="/dashboard/userHome">
@@ -51,7 +51,7 @@ const DashBoardLayout = () => {
                 </ul> 
             </div>
             {/* dashboard content */}
-            <div className="flex-1 p-8">
+            <div className="flex-1 p-8 bg-[#F6F6F6]">
                 <Outlet></Outlet>
             </div>
         </div>

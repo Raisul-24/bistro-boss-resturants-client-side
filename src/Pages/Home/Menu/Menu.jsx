@@ -1,4 +1,4 @@
-import SectionTitle from "../../../SharedComponents/SectionTitle";
+import SectionTitle from "../../../SharedComponents/SectionTitle/SectionTitle";
 import "./Menu.css";
 
 const Menu = () => {

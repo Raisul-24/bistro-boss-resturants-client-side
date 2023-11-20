@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import MenuCard from "../../../SharedComponents/MenuCard/MenuCard";
-import SectionTitle from "../../../SharedComponents/SectionTitle";
+import SectionTitle from "../../../SharedComponents/SectionTitle/SectionTitle";
 import PropTypes from 'prop-types';
 
 const MenuTabCategory = ({items}) => {

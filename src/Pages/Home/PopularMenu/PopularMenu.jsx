@@ -1,5 +1,5 @@
 // import { useEffect, useState } from "react";
-import SectionTitle from "../../../SharedComponents/SectionTitle";
+import SectionTitle from "../../../SharedComponents/SectionTitle/SectionTitle";
 import MenuCard from "../../../SharedComponents/MenuCard/MenuCard";
 import useMenu from "../../../hooks/UseMenu";
 
