@@ -11,7 +11,7 @@ import banner6 from "/src/assets/home/06.png"
 
 const Banner = () => {
    return (
-      <div>
+      <div className="text-center">
           <Carousel autoPlay="boolean"  >
                 <div>
                     <img src={banner1}/>
