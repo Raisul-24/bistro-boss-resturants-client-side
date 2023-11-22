@@ -3,27 +3,32 @@ import { useEffect, useState } from "react";
 import UseAxiosSecure from "../../../hooks/UseAxiosSecure";
 import UseCart from "../../../hooks/UseCart";
 import UseAuth from "../../../hooks/UseAuth";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 
 const CheckOutForm = () => {
    const [error, setError] = useState('');
-   const [transactionId, setTransactionId] =useState('')
+   const [transactionId, setTransactionId] =useState('');
+   const navigate = useNavigate();
 
    const [clientSecret, setClientSecret] = useState("");
 
    const stripe = useStripe();
    const elements = useElements();
    const axiosSecure = UseAxiosSecure();
-   const [cart] = UseCart();
+   const [cart, refetch] = UseCart();
    const { user } = UseAuth();
    const totalPrice = cart.reduce((total, item) => total + item.price, 0)
 
    useEffect(() => {
-      axiosSecure.post('/create-payment-intent', { price: totalPrice })
+      if(totalPrice > 0){
+         axiosSecure.post('/create-payment-intent', { price: totalPrice })
          .then(res => {
             // console.log(res.data.clientSecret);
             setClientSecret(res.data.clientSecret);
          })
+      }
    }, [axiosSecure, totalPrice])
 
 
@@ -78,8 +83,33 @@ const CheckOutForm = () => {
       else {
          console.log('payment intent', paymentIntent)
          if(paymentIntent.status === 'succeeded'){
-            console.log('transaction id', paymentIntent.id)
-            setTransactionId(paymentIntent.id)
+            console.log('transaction id', paymentIntent.id);
+            setTransactionId(paymentIntent.id);
+
+
+            // save the payment in db
+            const payment = {
+               email: user.email,
+               price: totalPrice,
+               transactionId: paymentIntent.id,
+               date: new Date(), // utc date convert. use moment js to 
+               cartIds: cart.map(item => item._id),
+               menuItemIds: cart.map(item => item.menuId),
+               status: 'pending'
+           }
+            const res = await axiosSecure.post('/payments', payment);
+            console.log(res.data);
+            refetch();
+            if (res.data?.paymentResult?.insertedId) {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Thank you for the taka paisa",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                navigate('/dashboard/paymentHistory')
+            }
          }
       }
    };
