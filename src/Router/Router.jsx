@@ -12,6 +12,10 @@ import DashBoardLayout from "../Layout/DashBoardLayout";
 import Cart from "../Pages/DashBoard/Cart/Cart";
 import PrivateRoute from "./PrivateRoute";
 import AllUsers from "../Pages/DashBoard/AllUsers/AllUsers";
+import AddItems from "../Pages/DashBoard/AddItems/AddItems";
+import AdminRoute from "./AdminRoute";
+import ManageItems from "../Pages/DashBoard/ManageItems/ManageItems";
+import UpdateItem from "../Pages/DashBoard/UpdateItems/UpdateItem";
 
 const router = createBrowserRouter([
    {
@@ -44,18 +48,34 @@ const router = createBrowserRouter([
       path: '/register',
       element: <Register></Register>
    },
+   // dashboard
    {
       path: 'dashboard',
-      element: <DashBoardLayout></DashBoardLayout>,
+      element: <PrivateRoute><DashBoardLayout></DashBoardLayout></PrivateRoute>,
       children: [
+         // normal user
          {
             path: 'cart',
-            element: <PrivateRoute><Cart></Cart></PrivateRoute>
+            element: <Cart></Cart>
+         },
+         // admin only routes
+         {
+            path: 'addItems',
+            element: <AdminRoute><AddItems></AddItems></AdminRoute>
          },
          {
             path: 'allUsers',
-            element: <AllUsers></AllUsers>
-         }
+            element: <AdminRoute><AllUsers></AllUsers></AdminRoute>
+         },
+         {
+            path: 'manageItems',
+            element: <AdminRoute><ManageItems></ManageItems></AdminRoute>
+         },
+         {
+            path: 'updateItem/:id',
+            element: <AdminRoute><UpdateItem></UpdateItem></AdminRoute>,
+            loader: ({params}) => fetch(`http://localhost:5007/menu/${params.id}`)
+         },
       ]
    }
  ]);
