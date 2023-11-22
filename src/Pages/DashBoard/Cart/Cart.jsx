@@ -4,6 +4,7 @@ import UseAxiosSecure from "../../../hooks/UseAxiosSecure";
 import UseCart from "../../../hooks/UseCart";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { Helmet } from "react-helmet";
+import { Link } from "react-router-dom";
 
 const Cart = () => {
    const [cart, refetch] = UseCart();
@@ -47,7 +48,12 @@ const Cart = () => {
             <div className="flex justify-evenly mb-8 items-center">
                <h2 className="text-4xl">Items: {cart.length}</h2>
                <h2 className="text-4xl">Total Price: ${totalPrice}</h2>
-               <button className="btn btn-outline btn-sm py-2 bg-[#D1A054] border-0 text-white">Pay</button>
+               {
+                  cart.length ? 
+                  <Link to='/dashboard/payment'><button className="btn btn-outline btn-sm py-2 bg-[#D1A054] border-0 text-white">Pay</button></Link>
+                  :
+                  <button disabled className="btn btn-outline btn-sm py-2 bg-[#D1A054] border-0 text-white">Pay</button>
+               }
             </div>
             <div>
                <div className="overflow-x-auto rounded-t-xl mx-16">
