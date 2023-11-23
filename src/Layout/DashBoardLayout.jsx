@@ -2,14 +2,19 @@
 import { FaAd, FaCalendar, FaHome, FaList, FaSearch, FaShoppingCart } from "react-icons/fa";
 import { NavLink, Outlet } from "react-router-dom";
 import UseCart from "../hooks/UseCart";
-import { FaBook, FaUsers, FaUtensils } from "react-icons/fa6";
+import { FaBook, FaEnvelope, FaUsers, FaUtensils } from "react-icons/fa6";
 import UseAdmin from "../hooks/UseAdmin";
 
 const DashBoardLayout = () => {
    const [cart] = UseCart();
 
    // TODO get isAdmin value from the database
-   const [isAdmin] = UseAdmin()
+   const [isAdmin, isAdminLoading] = UseAdmin();
+   if (isAdminLoading) {
+      <div className="">
+         <span className="loading loading-spinner text-primary"></span>
+      </div>
+   }
 
    return (
       <div className="flex">
@@ -19,7 +24,7 @@ const DashBoardLayout = () => {
                {
                   isAdmin ? <>
                      <li>
-                        <NavLink to="/dashboard/adminHome">
+                        <NavLink to="/dashboard/adminDashBoard">
                            <FaHome></FaHome>
                            Admin Home</NavLink>
                      </li>
@@ -48,7 +53,7 @@ const DashBoardLayout = () => {
                      :
                      <>
                         <li>
-                           <NavLink to="/dashboard/userHome">
+                           <NavLink to="/dashboard/userDashBoard">
                               <FaHome></FaHome>
                               User Home</NavLink>
                         </li>
@@ -74,6 +79,7 @@ const DashBoardLayout = () => {
                               <FaList></FaList>
                               Payment History</NavLink>
                         </li>
+
                      </>
                }
                <div className="divider"></div>
@@ -84,9 +90,14 @@ const DashBoardLayout = () => {
                      Home</NavLink>
                </li>
                <li>
-                  <NavLink to="/order/salad">
+                  <NavLink to="/shop">
                      <FaSearch></FaSearch>
                      Menu</NavLink>
+               </li>
+               <li>
+                  <NavLink to="/order/contact">
+                     <FaEnvelope></FaEnvelope>
+                     Contact</NavLink>
                </li>
             </ul>
          </div>

@@ -3,10 +3,12 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { toast } from "react-hot-toast";
 import UseCart from "../../hooks/UseCart";
+import UseAdmin from "../../hooks/UseAdmin";
 
 
 const Navbar = () => {
    const { user, logOut } = useContext(AuthContext);
+   const {isAdmin} = UseAdmin();
    // console.log(user)
    const [cart] = UseCart();
    // console.log(cart.length)
@@ -21,7 +23,14 @@ const Navbar = () => {
    const navLinks = <>
       <li><Link to='/'>Home</Link></li>
       <li><Link to='/contact'>Contact Us</Link></li>
-      <li><Link to='/dashBoard'>Dash Board</Link></li>
+      {
+         user && isAdmin ? <li><Link to='/dashboard/adminDashBoard'>Dash Board</Link></li>
+         :
+         <li><Link to='/dashBoard/userDashBoard'>Dash Board</Link></li>
+      }
+      {/* {
+         user && !isAdmin && <li><Link to='/dashBoard/userDashBoard'>Dash Board</Link></li>
+      } */}
       <li><Link to='/menu'>Our Menu</Link></li>
       <li><Link to='/shop'>Ous Shop</Link></li>
       <li><Link to='/dashboard/cart'>

@@ -18,6 +18,8 @@ import ManageItems from "../Pages/DashBoard/ManageItems/ManageItems";
 import UpdateItem from "../Pages/DashBoard/UpdateItems/UpdateItem";
 import Payment from "../Pages/DashBoard/Payment/Payment";
 import PaymentHistory from "../Pages/DashBoard/PaymentHistory/PaymentHistory";
+import AdminDashBoard from "../Pages/DashBoard/AdminDashBoard/AdminDashBoard";
+import UserDashBoard from "../Pages/DashBoard/UserDashBoard/UserDashBoard";
 
 const router = createBrowserRouter([
    {
@@ -61,6 +63,10 @@ const router = createBrowserRouter([
             element: <Cart></Cart>
          },
          {
+            path: 'userDashBoard',
+            element: <UserDashBoard></UserDashBoard>
+         },
+         {
             path: 'payment',
             element: <Payment></Payment>
          },
@@ -69,6 +75,10 @@ const router = createBrowserRouter([
             element: <PaymentHistory></PaymentHistory>
          },
          // admin only routes
+         {
+            path: 'adminDashBoard',
+            element:<AdminDashBoard> <AdminDashBoard></AdminDashBoard></AdminDashBoard>
+         },
          {
             path: 'addItems',
             element: <AdminRoute><AddItems></AddItems></AdminRoute>
